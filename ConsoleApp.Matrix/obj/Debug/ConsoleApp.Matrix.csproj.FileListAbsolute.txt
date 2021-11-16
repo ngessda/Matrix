@@ -1,0 +1,7 @@
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.exe.config
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.exe
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.pdb
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.csproj.AssemblyReference.cache
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.csproj.CoreCompileInputs.cache
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.exe
+C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.pdb
