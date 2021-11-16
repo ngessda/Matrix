@@ -6,49 +6,6 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp.Matrix
 {
-    //public string M_Size
-    //{
-    //    get
-    //    {
-    //        return $"Размер матрицы: {matrix_size_n} : {matrix_size_m}";
-    //    }
-    //}
-    // --------------------------------------------------------------------------------------------------
-    //public void Matrix_Size()
-    //{
-    //    Console.Write("Введите количество строк в матрице: ");
-    //    matrix_size_n = Convert.ToInt32(Console.ReadLine());
-    //    Console.Write("Введите количество столбцов в матрице: ");
-    //    matrix_size_m = Convert.ToInt32(Console.ReadLine());
-    //    if (matrix_size_n < 1 || matrix_size_m < 1)
-    //    {
-    //        Console.WriteLine("Чел ты ...");
-    //        Console.ReadKey();
-    //    }
-    //    else
-    //    {
-    //        matrix_value = new int[matrix_size_n, matrix_size_m];
-    //    }
-    //    Console.Clear();
-    //}
-    // --------------------------------------------------------------------------------------------------
-    //public void Size_Of_Identity_Matrix()
-    //{
-    //    Console.Write("Введите размер единичной матрицы: ");
-    //    matrix_size_n = Convert.ToInt32(Console.ReadLine());
-    //    matrix_size_m = matrix_size_n;
-    //    if (matrix_size_n < 1)
-    //    {
-    //        Console.WriteLine("Чел ты ...");
-    //        Console.ReadKey();
-    //    }
-    //    else
-    //    {
-    //        matrix_value = new int[matrix_size_n, matrix_size_m];
-    //    }
-    //    Console.Clear();
-    //}
-    // --------------------------------------------------------------------------------------------------
     class Matrix
     {
         private int matrixSizeN;
@@ -59,7 +16,8 @@ namespace ConsoleApp.Matrix
             Zero,
             Input,
             Random,
-            Identity
+            Identity,
+            Transposed
         }
         public Matrix(int msN, int msM, Operation op)
         {
@@ -80,15 +38,15 @@ namespace ConsoleApp.Matrix
                     break;
                 case Operation.Input:
                     MatrixInput();
-                    PrintMatrix();
                     break;
                 case Operation.Random:
                     MatrixRandom();
-                    PrintMatrix();
                     break;
                 case Operation.Identity:
                     IdentityMatrix();
-                    PrintMatrix();
+                    break;
+                case Operation.Transposed:
+                    TransMatrix();
                     break;
             }
         }
@@ -136,6 +94,19 @@ namespace ConsoleApp.Matrix
                 }
             }
         }
+        public void TransMatrix()
+        {
+            int slave = 0;
+            for(int i = 0; i < matrixSizeN; i++)
+            {
+                for(int j = 0; j < i; j++)
+                {
+                    slave = matrix_value[i, j];
+                    matrix_value[i, j] = matrix_value[j, i];
+                    matrix_value[j, i] = slave;
+                }
+            }
+        }
 
         public static Matrix operator+ (Matrix mAdd1, Matrix mAdd2)
         {
@@ -163,12 +134,17 @@ namespace ConsoleApp.Matrix
         }
         public static Matrix operator* (Matrix mMulty1, Matrix mMulty2)
         {
-            Matrix mMultyRes = new Matrix(mMulty1.matrixSizeN, mMulty2.matrixSizeM, Operation.Zero);
-            for (int i = 0; i < mMulty2.matrixSizeM || i < mMulty1.matrixSizeN; i++)
+            if (mMulty1.matrixSizeM != mMulty2.matrixSizeN)
             {
-                for (int j = 0; j < mMulty1.matrixSizeM; j++)
+                throw new Exception("Ты далбаеб!");
+            }
+            Matrix mMultyRes = new Matrix(mMulty1.matrixSizeN, mMulty2.matrixSizeM, Operation.Zero);
+            for (int i = 0; i < mMulty1.matrixSizeN; i++)
+            {
+                for (int j = 0; j < mMulty2.matrixSizeM; j++)
                 {
-                    for (int k = 0; k < mMulty1.matrixSizeM; k++)
+                    mMultyRes.matrix_value[i, j] = 0;
+                    for (int k = 0; k < mMulty1.matrixSizeN; k++)
                     {
                         mMultyRes.matrix_value[i, j] += mMulty1.matrix_value[i, k] * mMulty2.matrix_value[k, j];
                     }
@@ -176,6 +152,72 @@ namespace ConsoleApp.Matrix
             }
             return mMultyRes;
         }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < matrixSizeN; i++)
+            {
+                for (int j = 0; j < matrixSizeM; j++)
+                {
+                    sb.Append($" {matrix_value[i, j]} \t");
+                    if( j == matrixSizeM - 1)
+                    {
+                        sb.Append("");
+                    }
+                    else
+                    {
+                        sb.Append("|");
+                    }
+                }
+                sb.AppendLine();
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+        //--------------------------------------------------------------------------------------------------
+        //public string M_Size
+        //{
+        //    get
+        //    {
+        //        return $"Размер матрицы: {matrix_size_n} : {matrix_size_m}";
+        //    }
+        //}
+        // --------------------------------------------------------------------------------------------------
+        //public void Matrix_Size()
+        //{
+        //    Console.Write("Введите количество строк в матрице: ");
+        //    matrix_size_n = Convert.ToInt32(Console.ReadLine());
+        //    Console.Write("Введите количество столбцов в матрице: ");
+        //    matrix_size_m = Convert.ToInt32(Console.ReadLine());
+        //    if (matrix_size_n < 1 || matrix_size_m < 1)
+        //    {
+        //        Console.WriteLine("Чел ты ...");
+        //        Console.ReadKey();
+        //    }
+        //    else
+        //    {
+        //        matrix_value = new int[matrix_size_n, matrix_size_m];
+        //    }
+        //    Console.Clear();
+        //}
+        // --------------------------------------------------------------------------------------------------
+        //public void Size_Of_Identity_Matrix()
+        //{
+        //    Console.Write("Введите размер единичной матрицы: ");
+        //    matrix_size_n = Convert.ToInt32(Console.ReadLine());
+        //    matrix_size_m = matrix_size_n;
+        //    if (matrix_size_n < 1)
+        //    {
+        //        Console.WriteLine("Чел ты ...");
+        //        Console.ReadKey();
+        //    }
+        //    else
+        //    {
+        //        matrix_value = new int[matrix_size_n, matrix_size_m];
+        //    }
+        //    Console.Clear();
+        //}
+        // --------------------------------------------------------------------------------------------------
 
         //private static Matrix ScaleMultiply(Matrix mMulty1, Matrix mMulty2)
         //{
@@ -222,16 +264,17 @@ namespace ConsoleApp.Matrix
         //        }
         //    }
         //}
-        public void PrintMatrix()
-        {
-            for (int i = 0; i < matrixSizeN; i++)
-            {
-                for (int j = 0; j < matrixSizeM; j++)
-                {
-                    Console.Write($"[{i + 1}, {j + 1}] = {matrix_value[i, j]} \t");
-                }
-                Console.WriteLine("\n");
-            }
-        }
+
+        //public void PrintMatrix()
+        //{
+        //    for (int i = 0; i < matrixSizeN; i++)
+        //    {
+        //        for (int j = 0; j < matrixSizeM; j++)
+        //        {
+        //            Console.Write($"[{i + 1}, {j + 1}] = {matrix_value[i, j]} \t");
+        //        }
+        //        Console.WriteLine("\n");
+        //    }
+        //}
     }
 }

@@ -10,11 +10,11 @@ namespace ConsoleApp.Matrix
     {
         static void Main(string[] args)
         {
-            Matrix matrix1 = new Matrix(3, 3,Matrix.Operation.Random);
-            Matrix matrix2 = new Matrix(3, 3, Matrix.Operation.Random);
-            Console.WriteLine("--------------------------------------------------------------------");
-            Matrix matrix3 = matrix1 * matrix2;
-            matrix3.PrintMatrix();
+            Matrix matrix = new Matrix(4, 4,Matrix.Operation.Random);
+            Console.WriteLine(matrix);
+            Console.WriteLine("======================================== \n \n");
+            matrix.TransMatrix();
+            Console.WriteLine(matrix);
             Console.ReadKey();
         }
     }
