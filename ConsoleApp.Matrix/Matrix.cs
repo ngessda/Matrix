@@ -51,53 +51,59 @@ namespace ConsoleApp.Matrix
     // --------------------------------------------------------------------------------------------------
     class Matrix
     {
-        private int matrix_size_n;
-        private int matrix_size_m;
+        private int matrixSizeN;
+        private int matrixSizeM;
         private int[,] matrix_value;
+        public enum Operation
+        {
+            Zero,
+            Input,
+            Random,
+            Identity
+        }
+        public Matrix(int msN, int msM, Operation op)
+        {
+            matrixSizeN = msN;
+            matrixSizeM = msM;
+            if (matrixSizeN < 1 || matrixSizeM < 1)
+            {
+                Console.WriteLine("Чел ты...");
+                Console.ReadKey();
+            }
+            else
+            {
+                matrix_value = new int[matrixSizeN, matrixSizeM];
+            }
+            switch (op)
+            {
+                case Operation.Zero:
+                    break;
+                case Operation.Input:
+                    MatrixInput();
+                    PrintMatrix();
+                    break;
+                case Operation.Random:
+                    MatrixRandom();
+                    PrintMatrix();
+                    break;
+                case Operation.Identity:
+                    IdentityMatrix();
+                    PrintMatrix();
+                    break;
+            }
+        }
         public Matrix(int msN, int msM)
         {
-            matrix_size_n = msN;
-            matrix_size_m = msM;
-            if (matrix_size_n < 1 || matrix_size_m < 1)
-            {
-                Console.WriteLine("Чел ты...");
-                Console.ReadKey();
-            }
-            else
-            {
-                matrix_value = new int[matrix_size_n, matrix_size_m];
-            }
+            matrixSizeN = msN;
+            matrixSizeM = msM;
         }
-        public Matrix(int SoiM)
+
+        public void MatrixInput()
         {
-            matrix_size_n = SoiM;
-            matrix_size_m = matrix_size_n;
-            if (matrix_size_n < 1)
-            {
-                Console.WriteLine("Чел ты...");
-                Console.ReadKey();
-            }
-            else
-            {
-                matrix_value = new int[matrix_size_n, matrix_size_m];
-            }
-        }
-        public void Input_Matrix_To_Zero()
-        {
-            for (int i = 0; i < matrix_size_n; i++)
-            {
-                for (int j = 0; j < matrix_size_m; j++)
-                {
-                    matrix_value[i, j] = 0;
-                }
-            }
-        }
-        public void Matrix_Input_Manually()
-        {
-            for (int i = 0; i < matrix_size_n; i++)
+            for (int i = 0; i < matrixSizeN; i++)
             {
                 Console.WriteLine($"Вводите данные для {i + 1}-ой строки матрицы");
-                for (int j = 0; j < matrix_size_m; j++)
+                for (int j = 0; j < matrixSizeM; j++)
                 {
                     Console.Write($"{j + 1} = ");
                     matrix_value[i, j] = Convert.ToInt32(Console.ReadLine());
@@ -105,24 +111,124 @@ namespace ConsoleApp.Matrix
                 Console.Clear();
             }
         }
-        public void Matrix_Input_Random()
+        public void MatrixRandom()
         {
             Random rnd = new Random();
-            for (int i = 0; i < matrix_size_n; i++)
+            for (int i = 0; i < matrixSizeN; i++)
             {
-                for (int j = 0; j < matrix_size_m; j++)
+                for (int j = 0; j < matrixSizeM; j++)
                 {
-                    matrix_value[i, j] = rnd.Next(0, 2);
+                    matrix_value[i, j] = rnd.Next(1, 30);
                 }
             }
         }
-        public void Return_Matrix()
+        public void IdentityMatrix()
         {
-            for (int i = 0; i < matrix_size_n; i++)
+            if(matrixSizeN != matrixSizeM)
             {
-                for (int j = 0; j < matrix_size_m; j++)
+                Console.WriteLine("Чел ты...");
+            }
+            else
+            {
+                for (int i = 0; i < matrixSizeN; i++) 
                 {
-                    Console.Write($"{i + 1}.{j + 1} = {matrix_value[i, j]} \t");
+                    matrix_value[i, i] = 1;
+                }
+            }
+        }
+
+        public static Matrix operator+ (Matrix mAdd1, Matrix mAdd2)
+        {
+            Matrix mAddRes = new Matrix(mAdd1.matrixSizeN, mAdd1.matrixSizeM, Operation.Zero);
+            for (int i = 0; i < mAdd1.matrixSizeN; i++) 
+            {
+                for (int j = 0; j < mAdd2.matrixSizeM; j++) 
+                {
+                    mAddRes.matrix_value[i, j] = mAdd1.matrix_value[i, j] + mAdd2.matrix_value[i, j];
+                }
+            }
+            return mAddRes;
+        }
+        public static Matrix operator- (Matrix mAdd1, Matrix mAdd2)
+        {
+            Matrix mAddRes = new Matrix(mAdd1.matrixSizeN, mAdd1.matrixSizeM, Operation.Zero);
+            for (int i = 0; i < mAdd1.matrixSizeN; i++)
+            {
+                for (int j = 0; j < mAdd2.matrixSizeM; j++)
+                {
+                    mAddRes.matrix_value[i, j] = mAdd1.matrix_value[i, j] - mAdd2.matrix_value[i, j];
+                }
+            }
+            return mAddRes;
+        }
+        public static Matrix operator* (Matrix mMulty1, Matrix mMulty2)
+        {
+            Matrix mMultyRes = new Matrix(mMulty1.matrixSizeN, mMulty2.matrixSizeM, Operation.Zero);
+            for (int i = 0; i < mMulty2.matrixSizeM || i < mMulty1.matrixSizeN; i++)
+            {
+                for (int j = 0; j < mMulty1.matrixSizeM; j++)
+                {
+                    for (int k = 0; k < mMulty1.matrixSizeM; k++)
+                    {
+                        mMultyRes.matrix_value[i, j] += mMulty1.matrix_value[i, k] * mMulty2.matrix_value[k, j];
+                    }
+                }
+            }
+            return mMultyRes;
+        }
+
+        //private static Matrix ScaleMultiply(Matrix mMulty1, Matrix mMulty2)
+        //{
+        //    Matrix mMultyRes = new Matrix(mMulty1.matrixSizeN, mMulty2.matrixSizeM, Operation.Zero);
+        //    for (int i = 0; i < mMulty1.matrixSizeM; i++) 
+        //    {
+        //        for(int j = 0; j < mMulty1.matrixSizeN; j++)
+        //        {
+        //            for (int l = 0; l < mMulty1.matrixSizeN; l++)
+        //            {
+        //                mMultyRes.matrix_value[i, j] += mMulty1.matrix_value[i, l] * mMulty2.matrix_value[l, j];
+        //            }
+        //        }
+        //    }
+        //    return mMultyRes;
+        //}
+
+        //private static int MatrixMultiply(Matrix mAdd1, Matrix mAdd2)
+        //{
+        //    Matrix mAddRes = new Matrix(mAdd1.matrixSizeN, mAdd2.matrixSizeM, Operation.Zero);
+        //    int res;
+        //    int z = 0;
+        //    int x = 0;
+        //    for (int i = 0; i < mAdd1.matrixSizeM;)
+        //    {
+        //        if(x < mAdd1.matrixSizeM)
+        //        {
+        //            i = z;
+        //        }
+        //        else
+        //        {
+        //            i++;
+        //            z++;
+        //        }
+        //        res = 0;
+        //        for (int j = 0; j < mAdd2.matrixSizeN; j++)
+        //        {
+        //            res += mAdd1.matrix_value[i, j] * mAdd2.matrix_value[j, i];
+        //            if( j == mAdd2.matrixSizeN)
+        //            {
+        //                mAddRes.matrix_value[z, x] = res;
+        //                x++;
+        //            }    
+        //        }
+        //    }
+        //}
+        public void PrintMatrix()
+        {
+            for (int i = 0; i < matrixSizeN; i++)
+            {
+                for (int j = 0; j < matrixSizeM; j++)
+                {
+                    Console.Write($"[{i + 1}, {j + 1}] = {matrix_value[i, j]} \t");
                 }
                 Console.WriteLine("\n");
             }
