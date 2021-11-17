@@ -13,8 +13,7 @@ namespace ConsoleApp.Matrix
             Matrix matrix = new Matrix(4, 4,Matrix.Operation.Random);
             Console.WriteLine(matrix);
             Console.WriteLine("======================================== \n \n");
-            matrix.TransMatrix();
-            Console.WriteLine(matrix);
+            Console.WriteLine(matrix.TransMatrix());
             Console.ReadKey();
         }
     }

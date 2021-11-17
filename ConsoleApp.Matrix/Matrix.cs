@@ -46,7 +46,7 @@ namespace ConsoleApp.Matrix
         }
         public Matrix(int msN, int msM, Operation op)
         {
-            if (matrixSizeN < 1 || matrixSizeM < 1)
+            if (msN < 1 || msM < 1)
             {
                 throw new Exception("Чел ты...");
             }
@@ -110,18 +110,21 @@ namespace ConsoleApp.Matrix
                 }
             }
         }
-        public void TransMatrix()
+        public Matrix TransMatrix()
         {
-            int slave = 0;
+            Matrix newM = new Matrix(matrixSizeN, matrixSizeM, Operation.Zero);
+            //int slave = 0;
             for(int i = 0; i < matrixSizeN; i++)
             {
-                for(int j = 0; j < i; j++)
+                for(int j = 0; j < matrixSizeM; j++)
                 {
-                    slave = matrix_value[i, j];
-                    matrix_value[i, j] = matrix_value[j, i];
-                    matrix_value[j, i] = slave;
+                    newM.matrix_value[i, j] = matrix_value[j, i];
+                    //slave = matrix_value[i, j];
+                    //matrix_value[i, j] = matrix_value[j, i];
+                    //matrix_value[j, i] = slave;
                 }
             }
+            return newM;
         }
 
         public static Matrix operator+ (Matrix mAdd1, Matrix mAdd2)
@@ -160,7 +163,7 @@ namespace ConsoleApp.Matrix
                 for (int j = 0; j < mMulty2.matrixSizeM; j++)
                 {
                     mMultyRes.matrix_value[i, j] = 0;
-                    for (int k = 0; k < mMulty1.matrixSizeN; k++)
+                    for (int k = 0; k < mMulty2.matrixSizeN; k++)
                     {
                         mMultyRes.matrix_value[i, j] += mMulty1.matrix_value[i, k] * mMulty2.matrix_value[k, j];
                     }
