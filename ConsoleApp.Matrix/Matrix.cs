@@ -16,44 +16,60 @@ namespace ConsoleApp.Matrix
             Zero,
             Input,
             Random,
-            Identity,
-            Transposed
+            Identity
         }
-        public Matrix(int msN, int msM, Operation op)
+        public Matrix(int msN, Operation op)
         {
-            matrixSizeN = msN;
-            matrixSizeM = msM;
-            if (matrixSizeN < 1 || matrixSizeM < 1)
+            if(msN < 1)
             {
-                Console.WriteLine("Чел ты...");
-                Console.ReadKey();
+                throw new Exception("Чел ты...");
             }
             else
             {
-                matrix_value = new int[matrixSizeN, matrixSizeM];
-            }
-            switch (op)
-            {
-                case Operation.Zero:
-                    break;
-                case Operation.Input:
-                    MatrixInput();
-                    break;
-                case Operation.Random:
-                    MatrixRandom();
-                    break;
-                case Operation.Identity:
-                    IdentityMatrix();
-                    break;
-                case Operation.Transposed:
-                    TransMatrix();
-                    break;
+                matrixSizeN = msN;
+                matrixSizeM = matrixSizeN;
+                switch (op)
+                {
+                    case Operation.Zero:
+                        break;
+                    case Operation.Input:
+                        MatrixInput();
+                        break;
+                    case Operation.Random:
+                        MatrixRandom();
+                        break;
+                    case Operation.Identity:
+                        IdentityMatrix();
+                        break;
+                }
             }
         }
-        public Matrix(int msN, int msM)
+        public Matrix(int msN, int msM, Operation op)
         {
-            matrixSizeN = msN;
-            matrixSizeM = msM;
+            if (matrixSizeN < 1 || matrixSizeM < 1)
+            {
+                throw new Exception("Чел ты...");
+            }
+            else
+            {
+                matrixSizeN = msN;
+                matrixSizeM = msM;
+                matrix_value = new int[matrixSizeN, matrixSizeM];
+                switch (op)
+                {
+                    case Operation.Zero:
+                        break;
+                    case Operation.Input:
+                        MatrixInput();
+                        break;
+                    case Operation.Random:
+                        MatrixRandom();
+                        break;
+                    case Operation.Identity:
+                        IdentityMatrix();
+                        break;
+                }
+            }
         }
 
         public void MatrixInput()
