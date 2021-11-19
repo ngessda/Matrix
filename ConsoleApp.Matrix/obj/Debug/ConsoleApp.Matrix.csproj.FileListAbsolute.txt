@@ -5,3 +5,9 @@ C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\Consol
 C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.csproj.CoreCompileInputs.cache
 C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.exe
 C:\Users\micky\source\repos\ConsoleApp.Matrix\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.pdb
+D:\CSProjects\matrices\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.exe.config
+D:\CSProjects\matrices\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.exe
+D:\CSProjects\matrices\ConsoleApp.Matrix\bin\Debug\ConsoleApp.Matrix.pdb
+D:\CSProjects\matrices\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.csproj.CoreCompileInputs.cache
+D:\CSProjects\matrices\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.exe
+D:\CSProjects\matrices\ConsoleApp.Matrix\obj\Debug\ConsoleApp.Matrix.pdb

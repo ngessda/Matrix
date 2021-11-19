@@ -20,14 +20,47 @@ namespace ConsoleApp.Matrix
         {
             
         }
+        public SquareMatrix(Matrix matrix) : base(matrix)
+        {
+            if (matrix.Rows != matrix.Colls)
+            {
+                throw new Exception("Ошибка-ошибка!");
+            }
+        }
         public SquareMatrix ObrMatrix()
         {
             return GetObrMatrix(this);
         }
+
+        public static SquareMatrix operator +(SquareMatrix a, SquareMatrix b)
+        {
+            return new SquareMatrix((a as Matrix) + (b as Matrix));
+        }
+        public static SquareMatrix operator -(SquareMatrix a, SquareMatrix b)
+        {
+            return new SquareMatrix((a as Matrix) - (b as Matrix));
+        }
+        public static SquareMatrix operator *(SquareMatrix a, SquareMatrix b)
+        {
+            return new SquareMatrix((a as Matrix) * (b as Matrix));
+        }
+        public static SquareMatrix operator *(double scalar, SquareMatrix matrix)
+        {
+            return new SquareMatrix(scalar * (matrix as Matrix));
+        }
+        public SquareMatrix TranspMatrix()
+        {
+            return new SquareMatrix(TransMatrix());
+        }
+        public double Determinant()
+        {
+            return GetMatrixDet(this);
+        }
+
         private SquareMatrix GetObrMatrix(SquareMatrix m)
         {
             SquareMatrix m1 = new SquareMatrix(matrixSizeN, Operation.Zero);
-            m1 = ((1 / GetMatrixDet(m)) * GetMObrsMatrix(m)) as SquareMatrix;
+            m1 = ((1 / GetMatrixDet(m)) * GetMObrsMatrix(m));
             return m1;
         }
         private SquareMatrix GetMObrsMatrix(SquareMatrix m)
@@ -40,11 +73,7 @@ namespace ConsoleApp.Matrix
                     m2.matrixValue[i,j] = Math.Pow(-1, (1 + 1 + i + j)) * GetMatrixDet(GetMinorDet(m, i, j));
                 }
             }
-            return m2.TransMatrix() as SquareMatrix;
-        }
-        public double Determinant()
-        {
-            return GetMatrixDet(this);
+            return m2.TranspMatrix();
         }
         private double GetMatrixDet(SquareMatrix minor)
         {
