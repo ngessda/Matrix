@@ -17,7 +17,7 @@ namespace ConsoleApp.Matrix
             //double[,] arr = { { 11, 2, 6 }, { 24, 1, 3 }, { 0, 2, 22 } };
             SquareMatrix matrix = new SquareMatrix(3, Matrix.Operation.Random);
             Console.WriteLine(matrix);
-            Console.WriteLine(matrix.ObrMatrix());
+            Console.WriteLine(matrix.ObrMatrix() * matrix);
             Console.ReadKey();
         }
     }

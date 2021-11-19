@@ -11,6 +11,10 @@ namespace ConsoleApp.Matrix
         protected int matrixSizeN;
         protected int matrixSizeM;
         protected double[,] matrixValue;
+
+        public int Rows => matrixSizeN;
+        public int Colls => matrixSizeM;
+
         public enum Operation
         {
             Zero,
@@ -18,7 +22,12 @@ namespace ConsoleApp.Matrix
             Random,
             Identity
         }
-
+        public Matrix(Matrix matrix)
+        {
+            matrixSizeN = matrix.matrixSizeN;
+            matrixSizeM = matrix.matrixSizeM;
+            matrixValue = matrix.matrixValue.Clone() as double[,];
+        }
         public Matrix(int msN, int msM, Operation op)
         {
             if (msN < 1 || msM < 1)
