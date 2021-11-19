@@ -14,9 +14,10 @@ namespace ConsoleApp.Matrix
             //Console.WriteLine(matrix);
             //Console.WriteLine("======================================== \n \n");
             //Console.WriteLine(matrix.);
-            int[,] arr = { { 11, 2, 6 }, { 24, 1, 3 }, { 0, 2, 22 } };
-           SquareMatrix matrix = new SquareMatrix(arr);
-            Console.WriteLine(matrix.Determinant());
+            //double[,] arr = { { 11, 2, 6 }, { 24, 1, 3 }, { 0, 2, 22 } };
+            SquareMatrix matrix = new SquareMatrix(3, Matrix.Operation.Random);
+            Console.WriteLine(matrix);
+            Console.WriteLine(matrix.ObrMatrix());
             Console.ReadKey();
         }
     }

@@ -15,10 +15,32 @@ namespace ConsoleApp.Matrix
             matrixSizeN = size;
             matrixSizeM = matrixSizeN;
         }
-        public SquareMatrix(int [,] arr)
+        public SquareMatrix(double [,] arr)
             :base(arr)
         {
             
+        }
+        public SquareMatrix ObrMatrix()
+        {
+            return GetObrMatrix(this);
+        }
+        private SquareMatrix GetObrMatrix(SquareMatrix m)
+        {
+            SquareMatrix m1 = new SquareMatrix(matrixSizeN, Operation.Zero);
+            m1 = ((1 / GetMatrixDet(m)) * GetMObrsMatrix(m)) as SquareMatrix;
+            return m1;
+        }
+        private SquareMatrix GetMObrsMatrix(SquareMatrix m)
+        {
+            SquareMatrix m2 = new SquareMatrix(matrixSizeN, Operation.Zero);
+            for (int i = 0; i < m.matrixSizeN; i++)
+            {
+                for(int j = 0; j < m.matrixSizeM; j++)
+                {
+                    m2.matrixValue[i,j] = Math.Pow(-1, (1 + 1 + i + j)) * GetMatrixDet(GetMinorDet(m, i, j));
+                }
+            }
+            return m2.TransMatrix() as SquareMatrix;
         }
         public double Determinant()
         {
@@ -68,18 +90,18 @@ namespace ConsoleApp.Matrix
                         {
                             M.matrixValue[i - 1, j ] = minor.matrixValue[i, j];
                         }
-                        if (j > colls)
+                        else
                         {
                             M.matrixValue[i - 1, j - 1] = minor.matrixValue[i, j];
                         }
                     }
-                    if (i < rows)
+                    else
                     {
                         if (j < colls)
                         {
                             M.matrixValue[i, j] = minor.matrixValue[i, j];
                         }
-                        if (j > colls)
+                        else
                         {
                             M.matrixValue[i, j - 1] = minor.matrixValue[i, j];
                         }

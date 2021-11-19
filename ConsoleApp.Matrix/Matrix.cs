@@ -10,7 +10,7 @@ namespace ConsoleApp.Matrix
     {
         protected int matrixSizeN;
         protected int matrixSizeM;
-        protected int[,] matrixValue;
+        protected double[,] matrixValue;
         public enum Operation
         {
             Zero,
@@ -29,7 +29,7 @@ namespace ConsoleApp.Matrix
             {
                 matrixSizeN = msN;
                 matrixSizeM = msM;
-                matrixValue = new int[matrixSizeN, matrixSizeM];
+                matrixValue = new double[matrixSizeN, matrixSizeM];
                 switch (op)
                 {
                     case Operation.Zero:
@@ -47,9 +47,9 @@ namespace ConsoleApp.Matrix
             }
         }
 
-        public Matrix(int [,] arr)
+        public Matrix(double [,] arr)
         {
-            matrixValue = arr.Clone() as int[,];
+            matrixValue = arr.Clone() as double[,];
             matrixSizeN = arr.GetLength(0);
             matrixSizeM = arr.GetLength(1);
         }
@@ -151,6 +151,18 @@ namespace ConsoleApp.Matrix
                 }
             }
             return mMultyRes;
+        }
+        public static Matrix operator*(double nValue, Matrix mMulty)
+        {
+            Matrix mRes = new Matrix(mMulty.matrixSizeN, mMulty.matrixSizeM, Operation.Zero);
+            for(int i = 0; i < mMulty.matrixSizeN; i++)
+            {
+                for(int j = 0; j < mMulty.matrixSizeM; j++)
+                {
+                    mRes.matrixValue[i, j] = nValue * mMulty.matrixValue[i, j];
+                }
+            }
+            return mRes;
         }
         public override string ToString()
         {
