@@ -8,48 +8,85 @@ namespace ConsoleApp.Matrix
 {
     class SquareMatrix : Matrix
     {
-        private int sizeOfSqrMatrix;
-        private int[,] matrixValue;
 
         public SquareMatrix(int size, Operation op)
-            : base(size, op)
+            : base(size, size, op)
         {
-            sizeOfSqrMatrix = size;
+            matrixSizeN = size;
+            matrixSizeM = matrixSizeN;
         }
-        public int Determinant()
+        public SquareMatrix(int [,] arr)
+            :base(arr)
         {
-            int counter = sizeOfSqrMatrix;
-            int n = 0;
-            int x = 0;
-            //switch (counter)
-            //{
-            //    case 1:
-            //        Console.WriteLine(matrixValue[sizeOfSqrMatrix, sizeOfSqrMatrix]);
-            //        break;
-            //    case 2:
-            //        Console.WriteLine((matrixValue[0, 0] * matrixValue[1, 1]) - (matrixValue[1, 0] * matrixValue[0, 1]));
-            //        break;
-            //    case 3:
+            
+        }
+        public double Determinant()
+        {
+            return GetMatrixDet(this);
+        }
+        private double GetMatrixDet(SquareMatrix minor)
+        {
+            if (minor.matrixSizeN == 1)
+            {
+                return matrixValue[0, 0];
+            }
+            else if (minor.matrixSizeN == 2)
+            {
+                double res = (matrixValue[0, 0] * matrixValue[1, 1]) - (matrixValue[1, 0] * matrixValue[0, 1]);
+                return res;
+            }
+            else
+            {
+                double result = 0;
+                for (int i = 0; i < minor.matrixSizeN; i++)
+                {
+                    result += matrixValue[i, 0] * Math.Pow(-1, (1 + 1 + i)) * GetMatrixDet(GetMinorDet(minor, i, 0));
+                }
+                return result;
+            }
+        }
 
-            //        break;
-            //}
-            if (counter == 1)
+        private SquareMatrix GetMinorDet(SquareMatrix minor, int rows, int colls)
+        {
+            int mSize = matrixSizeN - 1;
+            SquareMatrix M = new SquareMatrix(mSize, Operation.Zero);
+            for(int i = 0; i < minor.matrixSizeN; i++)
             {
-                return matrixValue[n, x];
+                if( i == rows)
+                {
+                    continue;
+                }
+                for(int j = 0; j < minor.matrixSizeM; j++)
+                {
+                    if( j == colls)
+                    {
+                        continue;
+                    }
+                    if (i > rows)
+                    {
+                        if (j < colls)
+                        {
+                            M.matrixValue[i - 1, j ] = minor.matrixValue[i, j];
+                        }
+                        if (j > colls)
+                        {
+                            M.matrixValue[i - 1, j - 1] = minor.matrixValue[i, j];
+                        }
+                    }
+                    if (i < rows)
+                    {
+                        if (j < colls)
+                        {
+                            M.matrixValue[i, j] = minor.matrixValue[i, j];
+                        }
+                        if (j > colls)
+                        {
+                            M.matrixValue[i, j - 1] = minor.matrixValue[i, j];
+                        }
+                    }
+                }
             }
-            if (counter == 2)
-            {
-                return (matrixValue[n, x] * matrixValue[n + 1, x + 1]) - (matrixValue[n + 1, x] * matrixValue[n, x + 1]);
-            }
-            if(counter == 3)
-            {
-                return (matrixValue[n, x] * matrixValue[n + 1, x + 1] * matrixValue[n + 2, x + 2]) + (matrixValue[n + 2, x] * matrixValue[n, x + 1] * matrixValue[n + 1, x + 2]) + (matrixValue[n + 1, x] * matrixValue[n + 2, x + 1] * matrixValue[n, x + 2]) - (matrixValue[n + 2, x] * matrixValue[n + 1, x + 1] * matrixValue[n, x + 2]) - (matrixValue[n, x] * matrixValue[n + 2, x + 1] * matrixValue[n + 1, x + 2]) - (matrixValue[n + 1, x] * matrixValue[n, x + 1] * matrixValue[n + 2, x + 2]);
-            }
-            if(counter == 4)
-            {
-
-            }
-            return 1;
+            return M;
         }
     }
 }
