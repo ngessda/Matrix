@@ -32,7 +32,7 @@ namespace ConsoleApp.Matrix
             }
             else if (minor.matrixSizeN == 2)
             {
-                double res = (matrixValue[0, 0] * matrixValue[1, 1]) - (matrixValue[1, 0] * matrixValue[0, 1]);
+                double res = (minor.matrixValue[0, 0] * minor.matrixValue[1, 1]) - (minor.matrixValue[1, 0] * minor.matrixValue[0, 1]);
                 return res;
             }
             else
